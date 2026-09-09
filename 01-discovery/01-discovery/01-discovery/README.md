@@ -1,4 +1,4 @@
-# 01 - Customer Discovery
+# 01-discovery/README.md
 
 This folder contains the customer discovery and environment inventory artifacts for the Azure Hybrid Migration Factory.
 
