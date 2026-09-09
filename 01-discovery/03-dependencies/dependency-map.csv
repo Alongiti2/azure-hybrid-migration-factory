@@ -1,0 +1,21 @@
+Dependency_ID,Source,Source_Type,Target,Target_Type,Dependency_Type,Protocol_or_Service,Port,Direction,Criticality,Required_During_Migration,Failure_Impact,Migration_Constraint,Recommended_Action
+DEP-001,WEB01,Server,APP01,Server,Application,HTTPS,443,Outbound,Critical,Yes,Customer portal unavailable,WEB and APP tiers must maintain connectivity,Migrate within coordinated wave
+DEP-002,WEB02,Server,APP02,Server,Application,HTTPS,443,Outbound,Critical,Yes,Customer portal degraded,WEB and APP tiers must maintain connectivity,Migrate within coordinated wave
+DEP-003,APP01,Server,DB01,Database Server,Database,SQL Server,1433,Outbound,Critical,Yes,ERP unavailable,Database connectivity must be preserved,Migrate DB after application readiness validation
+DEP-004,APP02,Server,DB01,Database Server,Database,SQL Server,1433,Outbound,Critical,Yes,ERP unavailable,Database connectivity must be preserved,Migrate DB after application readiness validation
+DEP-005,API01,Server,DB01,Database Server,Database,SQL Server,1433,Outbound,High,Yes,API unavailable,API and DB connectivity required,Validate private routing before cutover
+DEP-006,WEB01,Server,AD01,Identity,Authentication,Kerberos/LDAP,88;389;636,Outbound,Critical,Yes,Authentication failures,Identity must remain reachable,Preserve hybrid identity path
+DEP-007,WEB02,Server,AD02,Identity,Authentication,Kerberos/LDAP,88;389;636,Outbound,Critical,Yes,Authentication failures,Identity must remain reachable,Preserve hybrid identity path
+DEP-008,APP01,Server,AD01,Identity,Authentication,Kerberos/LDAP,88;389;636,Outbound,Critical,Yes,Application login failures,Identity dependency cannot be broken,Validate DNS and AD before migration
+DEP-009,APP02,Server,AD02,Identity,Authentication,Kerberos/LDAP,88;389;636,Outbound,Critical,Yes,Application login failures,Identity dependency cannot be broken,Validate DNS and AD before migration
+DEP-010,DB01,Database Server,AD01,Identity,Authentication,Kerberos,88,Outbound,Critical,Yes,Database authentication failure,AD authentication must remain available,Test SQL integrated authentication
+DEP-011,AllServers,Infrastructure,AD01;AD02,DNS,DNS,UDP/TCP,53,Outbound,Critical,Yes,Name resolution failure,DNS continuity required across every wave,Implement hybrid DNS before migration
+DEP-012,MON01,Monitoring,AllServers,Infrastructure,Monitoring,Agent/Syslog,Various,Bidirectional,High,Yes,Loss of monitoring visibility,Monitoring must continue during cutover,Deploy target monitoring first
+DEP-013,BACKUP01,Backup,AllServers,Infrastructure,Backup,Backup Agent,Various,Bidirectional,Critical,Yes,Rollback capability reduced,Backup must be valid before cutover,Verify restore points before each wave
+DEP-014,EDGE01,Edge Workload,Azure,Cloud Platform,Cloud Connectivity,HTTPS,443,Outbound,High,Partial,Edge cloud sync interrupted,Factory workload must tolerate disconnects,Preserve local processing capability
+DEP-015,EDGE01,Edge Workload,Factory Devices,OT Devices,Local Device Connectivity,Industrial Protocols,Various,Bidirectional,Critical,Yes,Manufacturing interruption,Latency and local connectivity required,Keep workload on Azure Local
+DEP-016,MGMT01,Management,AllServers,Infrastructure,Administrative,RDP/SSH,3389;22,Outbound,High,Yes,Administrative access lost,Secure management path needed during migration,Replace with Bastion/JIT
+DEP-017,ContosoERP,Application,ContosoERPDB,Database,Application Database,SQL,1433,Outbound,Critical,Yes,ERP outage,Application and database must be migration-coordinated,Wave 3 coordinated cutover
+DEP-018,ContosoPortal,Application,ContosoPortalDB,Database,Application Database,SQL,1433,Outbound,High,Yes,Portal outage,Database endpoint changes affect application,Validate connection strings and DNS
+DEP-019,ContosoAPI,Application,ContosoAPIDB,Database,Application Database,SQL,1433,Outbound,High,Yes,API outage,Database endpoint dependency,Validate API after DB migration
+DEP-020,Azure Stack Hub,Platform,Azure,Cloud Platform,Hybrid Connectivity,VPN/HTTPS,443,Outbound,Critical,Yes,Migration replication/control failure,Hybrid path must be stable,Validate bandwidth latency and firewall rules
