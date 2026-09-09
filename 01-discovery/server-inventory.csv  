@@ -1,0 +1,13 @@
+Hostname,Platform,Role,Environment,OS,OS_Version,vCPU,RAM_GB,Storage_GB,IP_Address,Subnet,Business_Criticality,Application,Database,Dependencies,Backup_Status,DR_Status,Target_Platform,Migration_Wave,Migration_Status,Notes
+WEB01,Azure Stack Hub,Web Server,Production,Windows Server,2019,4,16,150,10.10.10.21,WEB-SUBNET,High,ContosoPortal,None,APP01,Protected,Partial,Azure,2,Discovery,Primary production web server
+WEB02,Azure Stack Hub,Web Server,Production,Windows Server,2019,4,16,150,10.10.10.22,WEB-SUBNET,High,ContosoPortal,None,APP01,Protected,Partial,Azure,2,Discovery,Secondary production web server
+APP01,Azure Stack Hub,Application Server,Production,Windows Server,2019,8,32,300,10.10.20.21,APP-SUBNET,Critical,ContosoERP,None,DB01;AD01,Protected,Partial,Azure,3,Discovery,Core application server
+APP02,Azure Stack Hub,Application Server,Production,Windows Server,2019,8,32,300,10.10.20.22,APP-SUBNET,Critical,ContosoERP,None,DB01;AD01,Protected,Partial,Azure,3,Discovery,Secondary application server
+DB01,Azure Stack Hub,Database Server,Production,Windows Server,2019,8,64,1024,10.10.30.21,DB-SUBNET,Critical,ContosoERP,SQLServer,APP01;APP02;Storage01,Protected,No,Azure,4,Discovery,Primary SQL database server
+API01,Azure Stack Hub,API Server,Production,Ubuntu,22.04,4,16,200,10.10.20.31,APP-SUBNET,High,ContosoAPI,None,DB01;AD01,Protected,Partial,Azure,2,Discovery,Internal API workload
+AD01,Azure Stack Hub,Domain Controller,Production,Windows Server,2022,4,16,120,10.10.40.11,IDENTITY-SUBNET,Critical,ActiveDirectory,None,DNS01,Protected,Yes,Azure Local,4,Discovery,Primary domain controller
+AD02,Azure Stack Hub,Domain Controller,Production,Windows Server,2022,4,16,120,10.10.40.12,IDENTITY-SUBNET,Critical,ActiveDirectory,None,DNS01,Protected,Yes,Azure Local,4,Discovery,Secondary domain controller
+MGMT01,Azure Stack Hub,Management Server,Production,Windows Server,2019,4,16,200,10.10.50.11,MGMT-SUBNET,Medium,Management,None,AD01;MON01,Protected,Partial,Azure Local,1,Discovery,Management jump server
+MON01,Azure Stack Hub,Monitoring Server,Production,Ubuntu,22.04,4,16,300,10.10.50.21,MGMT-SUBNET,Medium,Monitoring,None,AllServers,Protected,Partial,Azure,1,Discovery,Central monitoring server
+BACKUP01,Azure Stack Hub,Backup Server,Production,Windows Server,2019,8,32,2048,10.10.60.11,BACKUP-SUBNET,High,Backup,None,AllServers,Protected,No,Azure Local,3,Discovery,Backup infrastructure server
+EDGE01,Azure Stack Edge,Edge Compute,Production,Ubuntu,22.04,8,32,500,10.20.10.11,EDGE-SUBNET,High,FactoryEdge,None,Azure;LocalDevices,LocalBackup,Partial,Azure Local,2,Discovery,Factory edge processing workload
