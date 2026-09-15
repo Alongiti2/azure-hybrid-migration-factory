@@ -117,6 +117,130 @@ module managementSpoke './modules/spoke-vnet.bicep' = {
     tags: commonTags
   }
 }
+// ============================================================
+// Hub-to-Spoke VNet Peering
+// ============================================================
+
+module hubToWebPeering './modules/vnet-peering.bicep' = {
+  name: 'peer-hub-to-web'
+  scope: networkResourceGroup
+  params: {
+    localVnetName: hubVnet.outputs.vnetName
+    remoteVnetId: webSpoke.outputs.vnetId
+    peeringName: 'peer-hub-to-web'
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+}
+
+module webToHubPeering './modules/vnet-peering.bicep' = {
+  name: 'peer-web-to-hub'
+  scope: networkResourceGroup
+  params: {
+    localVnetName: webSpoke.outputs.vnetName
+    remoteVnetId: hubVnet.outputs.vnetId
+    peeringName: 'peer-web-to-hub'
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+}
+
+module hubToAppPeering './modules/vnet-peering.bicep' = {
+  name: 'peer-hub-to-app'
+  scope: networkResourceGroup
+  params: {
+    localVnetName: hubVnet.outputs.vnetName
+    remoteVnetId: appSpoke.outputs.vnetId
+    peeringName: 'peer-hub-to-app'
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+  dependsOn: [
+    hubToWebPeering
+  ]
+}
+
+module appToHubPeering './modules/vnet-peering.bicep' = {
+  name: 'peer-app-to-hub'
+  scope: networkResourceGroup
+  params: {
+    localVnetName: appSpoke.outputs.vnetName
+    remoteVnetId: hubVnet.outputs.vnetId
+    peeringName: 'peer-app-to-hub'
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+}
+
+module hubToDataPeering './modules/vnet-peering.bicep' = {
+  name: 'peer-hub-to-data'
+  scope: networkResourceGroup
+  params: {
+    localVnetName: hubVnet.outputs.vnetName
+    remoteVnetId: dataSpoke.outputs.vnetId
+    peeringName: 'peer-hub-to-data'
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+  dependsOn: [
+    hubToAppPeering
+  ]
+}
+
+module dataToHubPeering './modules/vnet-peering.bicep' = {
+  name: 'peer-data-to-hub'
+  scope: networkResourceGroup
+  params: {
+    localVnetName: dataSpoke.outputs.vnetName
+    remoteVnetId: hubVnet.outputs.vnetId
+    peeringName: 'peer-data-to-hub'
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+}
+
+module hubToManagementPeering './modules/vnet-peering.bicep' = {
+  name: 'peer-hub-to-management'
+  scope: networkResourceGroup
+  params: {
+    localVnetName: hubVnet.outputs.vnetName
+    remoteVnetId: managementSpoke.outputs.vnetId
+    peeringName: 'peer-hub-to-management'
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+  dependsOn: [
+    hubToDataPeering
+  ]
+}
+
+module managementToHubPeering './modules/vnet-peering.bicep' = {
+  name: 'peer-management-to-hub'
+  scope: networkResourceGroup
+  params: {
+    localVnetName: managementSpoke.outputs.vnetName
+    remoteVnetId: hubVnet.outputs.vnetId
+    peeringName: 'peer-management-to-hub'
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+}
 
 output networkResourceGroup string = networkResourceGroup.name
 output monitoringResourceGroup string = monitoringResourceGroup.name
