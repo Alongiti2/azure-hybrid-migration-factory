@@ -10,6 +10,9 @@ param workloadName string
 @description('Spoke VNet address prefix.')
 param addressPrefix string
 
+@description('Subnet definitions for this spoke.')
+param subnets array = []
+
 @description('Tags applied to resources.')
 param tags object
 
@@ -27,6 +30,15 @@ resource spokeVnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         addressPrefix
       ]
     }
+
+    subnets: [
+      for subnet in subnets: {
+        name: subnet.name
+        properties: {
+          addressPrefix: subnet.addressPrefix
+        }
+      }
+    ]
   }
 }
 
