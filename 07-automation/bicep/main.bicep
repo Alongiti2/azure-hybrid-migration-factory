@@ -300,93 +300,6 @@ module managementToHubPeering './modules/vnet-peering.bicep' = {
     allowForwardedTraffic: true
     allowGatewayTransit: false
     useRemoteGateways: false
-module webSpoke './modules/spoke-vnet.bicep' = {
-  name: 'deploy-web-spoke'
-  scope: networkResourceGroup
-  params: {
-    location: location
-    environment: environment
-    workloadName: 'web'
-    addressPrefix: webVnetAddressPrefix
-    subnets: [
-      {
-        name: 'snet-web'
-        addressPrefix: '10.110.10.0/24'
-      }
-      {
-        name: 'snet-web-private'
-        addressPrefix: '10.110.20.0/24'
-      }
-    ]
-    tags: commonTags
-  }
-}
-
-module appSpoke './modules/spoke-vnet.bicep' = {
-  name: 'deploy-app-spoke'
-  scope: networkResourceGroup
-  params: {
-    location: location
-    environment: environment
-    workloadName: 'app'
-    addressPrefix: appVnetAddressPrefix
-    subnets: [
-      {
-        name: 'snet-app'
-        addressPrefix: '10.120.10.0/24'
-      }
-      {
-        name: 'snet-app-private'
-        addressPrefix: '10.120.20.0/24'
-      }
-    ]
-    tags: commonTags
-  }
-}
-
-module dataSpoke './modules/spoke-vnet.bicep' = {
-  name: 'deploy-data-spoke'
-  scope: networkResourceGroup
-  params: {
-    location: location
-    environment: environment
-    workloadName: 'data'
-    addressPrefix: dataVnetAddressPrefix
-    subnets: [
-      {
-        name: 'snet-data'
-        addressPrefix: '10.130.10.0/24'
-      }
-      {
-        name: 'snet-data-private'
-        addressPrefix: '10.130.20.0/24'
-      }
-    ]
-    tags: commonTags
-  }
-}
-
-module managementSpoke './modules/spoke-vnet.bicep' = {
-  name: 'deploy-management-spoke'
-  scope: networkResourceGroup
-  params: {
-    location: location
-    environment: environment
-    workloadName: 'management'
-    addressPrefix: managementVnetAddressPrefix
-    subnets: [
-      {
-        name: 'snet-management'
-        addressPrefix: '10.140.10.0/24'
-      }
-      {
-        name: 'snet-tools'
-        addressPrefix: '10.140.20.0/24'
-      }
-    ]
-    tags: commonTags
-  }
-}
   }
 }
 
@@ -399,7 +312,6 @@ output monitoringResourceGroup string = monitoringResourceGroup.name
 output securityResourceGroup string = securityResourceGroup.name
 
 output hubVnetName string = hubVnet.outputs.vnetName
-
 output webSpokeName string = webSpoke.outputs.vnetName
 output appSpokeName string = appSpoke.outputs.vnetName
 output dataSpokeName string = dataSpoke.outputs.vnetName
