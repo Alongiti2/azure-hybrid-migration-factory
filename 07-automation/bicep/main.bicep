@@ -79,6 +79,16 @@ module webSpoke './modules/spoke-vnet.bicep' = {
     workloadName: 'web'
     addressPrefix: webVnetAddressPrefix
     tags: commonTags
+subnets: [
+  {
+    name: 'snet-web'
+    addressPrefix: '10.110.10.0/24'
+  }
+  {
+    name: 'snet-web-private'
+    addressPrefix: '10.110.20.0/24'
+  }
+]
   }
 }
 
